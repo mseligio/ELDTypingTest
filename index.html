@@ -79,13 +79,21 @@
       const input = textInput.value;
       if (!startTime) startTime = new Date();
 
-      if (input === currentText) {
+      if (input.trim() === currentText) {
         const endTime = new Date();
         const timeTaken = (endTime - startTime) / 1000; // seconds
         const words = currentText.split(" ").length;
         const wpm = Math.round((words / timeTaken) * 60);
-        results.textContent = `Done! Time: ${timeTaken.toFixed(1)}s | Speed: ${wpm} WPM`;
-        setTimeout(newTest, 2000);
+
+        // Calculate accuracy
+        let correctChars = 0;
+        for (let i = 0; i < input.length; i++) {
+          if (input[i] === currentText[i]) correctChars++;
+        }
+        const accuracy = Math.round((correctChars / currentText.length) * 100);
+
+        results.textContent = `✅ Done! Time: ${timeTaken.toFixed(1)}s | Speed: ${wpm} WPM | Accuracy: ${accuracy}%`;
+        setTimeout(newTest, 3000);
       }
     });
 
